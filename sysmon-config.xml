@@ -288,7 +288,7 @@
 		<!--Cannot be filtered.-->
 
 	<!--SYSMON EVENT ID 5 : PROCESS ENDED [ProcessTerminate]-->
-		<!--EDIT:	Replaced by Ion-Storm version->
+		<!--EDIT:	Replaced by Ion-Storm version-->
 		<!--COMMENT:	Useful data in building infection timelines.-->
 
 		<!--DATA: UtcTime, ProcessGuid, ProcessId, Image-->
