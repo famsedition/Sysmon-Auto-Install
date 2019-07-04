@@ -398,12 +398,24 @@
 
 	<!--SYSMON EVENT ID 10 : INTER-PROCESS ACCESS [ProcessAccess]-->
 		<!--EVENT 10: "Process accessed"-->
-		<!--NOTE:	@famara : Replaced by Exclude rules from Ion-Storm-->
+		<!--NOTE:	@famara : Replaced both Include and Exclude rules by Ion-Storm's-->
 		<!--COMMENT:	Can cause high system load, disabled by default.-->
 		<!--COMMENT:	Monitor for processes accessing other process' memory.-->
 
 		<!--DATA: UtcTime, SourceProcessGuid, SourceProcessId, SourceThreadId, SourceImage, TargetProcessGuid, TargetProcessId, TargetImage, GrantedAccess, CallTrace-->
 	<RuleGroup name="" groupRelation="or">
+		<ProcessAccess onmatch="include">
+			<TargetImage condition="end with">:\Windows\System32\lsass.exe</TargetImage>
+			<TargetImage condition="end with">:\Windows\System32\winlogon.exe</TargetImage>
+			<SourceImage condition="contains">powershell.exe</SourceImage>
+			<TargetImage condition="contains">verclsid.exe</TargetImage>
+			<CallTrace condition="contains">VBE7.dll</CallTrace>
+			<CallTrace condition="contains">CorperfmontExt.dll</CallTrace>
+		<!--COMMENT:	Monitor for processes accessing other process' memory. This can be valuable, but can cause massive event glut.
+				Disabled by default since including even one entry here activates this component. Reward/performance decision.
+				Encourage you to experiment with this feature yourself.
+				Uses 4mbs+ IO -->
+		</ProcessAccess>
 		<ProcessAccess onmatch="exclude">
 			<!-- Filter out common access masks
 			A reference is available here for the mask: https://msdn.microsoft.com/en-us/library/windows/desktop/ms684880%28v=vs.85%29.aspx
